@@ -1,0 +1,202 @@
+//ALEKSANDAR MILUTINOVIC NRT-30/21  IKS-OKS IGRICA
+
+#include <iostream>
+#include <fstream>
+#include <string.h>
+#include <iomanip>
+#define MAX 80
+using namespace std;
+void pisi(); //deklaracija funkcije za ispisivanje poruke na ekranu
+ 
+int main() {
+ 
+char polje1('1');
+char polje2('2');
+char polje3('3');
+char polje4('4');
+char polje5('5');
+char polje6('6');
+char polje7('7');
+char polje8('8');
+char polje9('9');
+int potezIgraca(1);
+bool krajIgre(true);
+char tekst1[MAX+1];
+char tekst2[MAX+1];
+char *igrajPonovo;
+
+
+ofstream fout;
+
+pisi(); //poziv funkcije za ispis poruke na ekranu
+cout << "Unesite ime prvog igraca: ";
+cin.get(tekst1, MAX+1);
+
+cin.ignore();
+cout << "\nUnesite ime drugog igraca: ";
+cin.get(tekst2, MAX+1);
+
+fout.open("datoteka.txt", ios::out); //Otvaranje tekstualne datoteke u koju upisujemo imena igraca
+
+
+if(!fout){
+	cerr << "Greska prilikom otvaranja datoteke!\n"; //Provera da li je datoteka uspesno otvorena
+	exit(1);
+}
+
+fout.write(tekst1, strlen(tekst1));
+fout.write("\n", 1);
+
+fout.write(tekst2, strlen(tekst2));
+fout.write("\n", 1);
+
+fout.close();
+// Glavna petlja u igri
+do {
+ // Crtanje table
+cout << polje1 << "|" << polje2 << "|" << polje3 << endl;
+cout << "-+-+-"<< endl;
+cout << polje4 << "|" << polje5 << "|" << polje6 << endl;
+cout << "-+-+-"<< endl;
+cout << polje7 << "|" << polje8 << "|" << polje9 << endl;
+ 
+// Setuje marker igraca: Igrac 1 koristi X i Igrac 2 koristi O
+char markerIgraca;
+if (potezIgraca == 1) {
+  markerIgraca = 'X';
+} else {
+   markerIgraca = 'O';
+}
+  
+  // Ispitivanje poteza
+cout << "Igrac " << potezIgraca << " je na potezu:" << endl;
+bool validnoPomeranje;
+  // Petlja kada je pomeranje validno (validnoPomeranje = (true))
+do {
+   char novoPomeranje;
+   cin >> novoPomeranje;
+   validnoPomeranje = true;
+ 
+   // Ispitati da li je pomeranje validno
+   if (novoPomeranje == '1' && polje1 == '1') {
+    polje1 = markerIgraca;
+   } else if (novoPomeranje == '2' && polje2 == '2') {
+    polje2 = markerIgraca;
+   } else if (novoPomeranje == '3' && polje3 == '3') {
+    polje3 = markerIgraca;
+   } else if (novoPomeranje == '4' && polje4 == '4') {
+    polje4 = markerIgraca;
+   } else if (novoPomeranje == '5' && polje5 == '5') {
+    polje5 = markerIgraca;
+   } else if (novoPomeranje == '6' && polje6 == '6') {
+    polje6 = markerIgraca;
+   } else if (novoPomeranje == '7' && polje7 == '7') {
+    polje7 = markerIgraca;
+   } else if (novoPomeranje == '8' && polje8 == '8') {
+    polje8 = markerIgraca;
+   } else if (novoPomeranje == '9' && polje9 == '9') {
+    polje9 = markerIgraca;
+   } else {
+    cout << "Potez nije validan. Proverite da niste pogresili pri kucanju broja. Pokusajte ponovo." << endl;
+    validnoPomeranje = false;
+   }
+  } while (!validnoPomeranje);
+ 
+krajIgre  = false;
+bool pobeda = true;
+  // Ispitaj uslove za završetak igre
+if (polje1 != '1') {
+   if (polje2 == polje1 && polje3 == polje1) {
+    krajIgre = true;
+   }
+   if (polje4 == polje1 && polje7 == polje1) {
+    krajIgre = true;
+   }
+}
+if (polje5 != '5') {
+   if (polje1 == polje5 && polje9 == polje5) {
+    krajIgre = true;
+   }
+   if (polje2 == polje5 && polje8 == polje5) {
+    krajIgre = true;
+   }
+   if (polje4 == polje5 && polje6 == polje5) {
+    krajIgre = true;
+   }
+   if (polje3 == polje5 && polje7 == polje5) {
+    krajIgre = true;
+   }
+}
+if (polje9 != '9') {
+   if (polje3 == polje9 && polje6 == polje9) {
+    krajIgre = true;
+   }
+   if (polje7 == polje9 && polje8 == polje9) {
+    krajIgre = true;
+   }
+}
+  // Ispitujemo da li je tabla puna (nereseno)
+if (polje1 != '1' && polje2 != '2' && polje3 != '3' &&
+   polje4 != '4' && polje5 != '5' && polje6 != '6' &&
+   polje7 != '7' && polje8 != '8' && polje9 != '9' && !krajIgre)
+{
+   krajIgre = true;
+   pobeda = false;
+}
+ 
+if (krajIgre) {
+   if (pobeda) {
+    cout << "Igrac " << potezIgraca << " je pobedio!" << endl;
+   }
+   // Crtanje table na kraju
+   cout << polje1 << "|" << polje2 << "|" << polje3 << endl;
+   cout << "-+-+-"<< endl;
+   cout << polje4 << "|" << polje5 << "|" << polje6 << endl;
+   cout << "-+-+-"<< endl;
+   cout << polje7 << "|" << polje8 << "|" << polje9 << endl;
+ 
+   cout << "Igra je zavrsena!" << endl;
+   cout << "Ponovo (upisite da/ne)?" << endl;
+   
+
+   igrajPonovo = new char[3]; //Dinamicka dodela memorije
+
+   if (igrajPonovo == NULL) {
+	   cerr << "\nNije uspela dodela memorijice\n"; //Provera da li je memorija uspesno dodeljena
+	   exit(1);
+   }
+   cin >> igrajPonovo;
+
+   
+
+   if (strcmp(igrajPonovo,"da") == 0) {
+    krajIgre = false;  
+    // Cišcenje table za igru
+    polje1 = '1';
+    polje2 = '2';
+    polje3 = '3';
+    polje4 = '4';
+    polje5 = '5';
+    polje6 = '6';
+    polje7 = '7';
+    polje8 = '8';
+    polje9 = '9';
+   }
+  potezIgraca = 1;
+  } else {
+   // Alternativno povlacenje
+   if (potezIgraca == 1) {
+    potezIgraca = 2;
+   } else {
+    potezIgraca = 1;
+   }
+  }
+ } while (!krajIgre);
+
+ delete igrajPonovo;
+
+return 0;
+}
+void pisi(){
+	cout << "Dobrodosli u Iks - Oks" << endl;  //telo funkcije za ispis poruke na ekranu
+}
